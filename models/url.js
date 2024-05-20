@@ -11,7 +11,19 @@ const urlSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    visitHistory: [{ timestamp: { type: Number } }],
+    visitHistory: [
+      {
+        timestamp: {
+          type: Number,
+        },
+        ipAddress: {
+          type: String,
+        },
+        UserAgent: {
+          type: String,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );

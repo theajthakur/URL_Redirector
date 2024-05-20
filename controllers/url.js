@@ -13,6 +13,9 @@ async function handleGenerateNewShortURL(req, res) {
 }
 
 async function handleRedirect(req, res) {
+  const ipAddress = req.headers["x-forwarded-for"] || req.ip;
+  const userAgent = req.headers["user-agent"];
+
   try {
     const data = await URL.findOneAndUpdate(
       {
@@ -22,6 +25,8 @@ async function handleRedirect(req, res) {
         $push: {
           visitHistory: {
             timestamp: Date.now(),
+            ipAddress: ipAddress,
+            UserAgent: userAgent,
           },
         },
       }
