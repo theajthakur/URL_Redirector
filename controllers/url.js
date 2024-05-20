@@ -1,5 +1,8 @@
+const UAParser = require("ua-parser-js");
+
 const shortid = require("shortid");
 const URL = require("../models/url");
+
 async function handleGenerateNewShortURL(req, res) {
   const body = req.body;
   if (!body.url) return res.status(400).json({ error: "URL is required!" });
@@ -33,7 +36,6 @@ async function handleRedirect(req, res) {
     );
     if (data) {
       const redirectURL = data.redirectURL;
-      // Redirect to the found URL
       return res.redirect(redirectURL);
     } else {
       // Handle case where no document is found
@@ -49,9 +51,37 @@ async function handleAnalytic(req, res) {
   const shortId = req.params.id;
   const data = await URL.findOne({ shortId });
   if (data) {
+    const analytics = data.visitHistory.map((tracking) => {
+      const uaParser = new UAParser();
+      const result = uaParser.setUA(tracking.UserAgent).getResult();
+
+      const browser = result.browser;
+      const os = result.os;
+      const device = result.device;
+      const date = new Date(tracking.timestamp);
+
+      return {
+        timestamp: date.toISOString(),
+        ipAddress: tracking.ipAddress,
+        browser: {
+          name: browser.name,
+          version: browser.version,
+        },
+        os: {
+          name: os.name,
+          version: os.version,
+        },
+        device: {
+          type: device.type || "Desktop",
+          vendor: device.vendor || "",
+          model: device.model || "",
+        },
+      };
+    });
+
     return res.json({
       totalclicks: data.visitHistory.length,
-      analytics: data.visitHistory,
+      analytics: analytics,
     });
   } else {
     return res.status(404).json({ error: "no link found!" });
