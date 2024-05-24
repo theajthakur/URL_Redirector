@@ -18,6 +18,9 @@
   <body>
     <h1 class="text-center p-4 bg-info">URL Shortener</h1>
     <div class="my-3 container">
+      <div class="mb-3 text-center alert alert-warning">
+        Welcome <%= username %>
+      </div>
       <% if (locals.id) { %>
       <p class="p-2 text-center bg-light">
         URL Generated:
