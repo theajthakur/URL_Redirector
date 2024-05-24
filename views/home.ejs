@@ -41,8 +41,14 @@
           <td>
             <a
               target="_blank"
-              href="http://localhost:8000/url/<%= url.shortId %>"
+              href="http://localhost:8000/url/analytic/<%= url.shortId %>"
               ><%= url.shortId %></a
+            >
+            <a
+              target="_blank"
+              href="http://localhost:8000/r/<%= url.shortId %>"
+            >
+              [LINK]</a
             >
           </td>
           <td><%= url.redirectURL %></td>
