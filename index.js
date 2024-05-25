@@ -13,6 +13,7 @@ const urlRoute = require("./routes/url");
 const RedirectRoute = require("./routes/redirect");
 const staticRouter = require("./routes/staticRouter");
 const userRouter = require("./routes/user");
+const webRoute = require("./routes/web");
 
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
@@ -26,6 +27,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use("/url/", restrictToLoggedinUserOnly, urlRoute);
+app.use("/web/", restrictToLoggedinUserOnly, webRoute);
 app.use("/user", userRouter);
 app.use("/", checkAuth, staticRouter);
 app.use("/r/", RedirectRoute);
