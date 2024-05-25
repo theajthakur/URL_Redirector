@@ -20,6 +20,12 @@
     <div class="my-3 container">
       <div class="mb-3 text-center alert alert-warning">
         Welcome <%= username %>
+        <a
+          style="font-size: 14px; float: right; position: relative; bottom: 5px"
+          class="btn btn-danger"
+          href="/logout"
+          >Logout</a
+        >
       </div>
       <% if (locals.id) { %>
       <p class="p-2 text-center bg-light">

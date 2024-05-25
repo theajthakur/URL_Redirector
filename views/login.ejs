@@ -20,9 +20,7 @@
             </div>
             <div class="card-body">
               <% if (locals.error) { %>
-                <div class="alert alert-danger" role="alert">
-                  <%= error %>
-                </div>
+              <div class="alert alert-danger" role="alert"><%= error %></div>
               <% } %>
               <form method="POST" action="/user/login">
                 <div class="mb-3">
@@ -47,8 +45,15 @@
                     placeholder="**********"
                   />
                 </div>
+                <div class="mb-3">
+                  <p class="m-0">
+                    Not have an account? <a href="/signup">Create New</a>
+                  </p>
+                </div>
                 <div class="d-grid gap-2">
-                  <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                  <button type="submit" class="btn btn-primary btn-block">
+                    Submit
+                  </button>
                 </div>
               </form>
             </div>

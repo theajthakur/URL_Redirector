@@ -1,6 +1,6 @@
 const express = require("express");
 const URL = require("../models/url");
-
+const { deleteUser } = require("../service/auth");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -18,6 +18,12 @@ router.get("/signup", async (req, res) => {
 
 router.get("/login", (req, res) => {
   res.render("login.ejs");
+});
+
+router.get("/logout", (req, res) => {
+  const userId = req.cookies.uid;
+  deleteUser(userId);
+  res.cookie("uid", "", { expires: new Date(0) }).redirect("/");
 });
 
 module.exports = router;
