@@ -1,10 +1,9 @@
 const express = require("express");
 const URL = require("../models/url");
-const { deleteUser } = require("../service/auth");
+const { restrictTo } = require("../middlewares/auth");
 const router = express.Router();
 
-router.get("/", async (req, res) => {
-  if (!req.user) return res.redirect("/login");
+router.get("/", restrictTo(["NORMAL", "ADMIN"]), async (req, res) => {
   const allurls = await URL.find({ createdBy: req.user._id });
   return res.render("home", {
     urls: allurls,
@@ -21,9 +20,8 @@ router.get("/login", (req, res) => {
 });
 
 router.get("/logout", (req, res) => {
-  const userId = req.cookies.uid;
-  deleteUser(userId);
-  res.cookie("uid", "", { expires: new Date(0) }).redirect("/");
+  res.clearCookie("token");
+  res.redirect("/login");
 });
 
 module.exports = router;
