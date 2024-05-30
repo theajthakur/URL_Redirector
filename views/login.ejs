@@ -8,6 +8,51 @@
       rel="stylesheet"
     />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <meta
+      name="google-signin-client_id"
+      content="133030192262-sc78lj0ce578mpo3n83shp7vlp4pb4df.apps.googleusercontent.com"
+    />
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script>
+      function handleCredentialResponse(response) {
+        document.querySelector("#login_form").remove();
+        const idToken = response.credential;
+        localStorage.setItem("google_token", idToken);
+        // Define the data to be sent in the POST request
+        const postData = {
+          idToken: idToken, // Assuming idToken is defined elsewhere in your code
+        };
+
+        // Create a form element
+        const form = document.createElement("form");
+        form.method = "POST"; // Set the method to POST
+        form.action = "/user/google-login"; // Set the action to the desired endpoint
+
+        // Create input element for each key-value pair in the postData object
+        Object.keys(postData).forEach((key) => {
+          const input = document.createElement("input");
+          input.type = "hidden"; // Set input type to hidden
+          input.name = key; // Set input name to the key
+          input.value = postData[key]; // Set input value to the corresponding value
+          form.appendChild(input); // Append input to the form
+        });
+        document.body.appendChild(form);
+        form.submit();
+      }
+
+      window.onload = function () {
+        google.accounts.id.initialize({
+          client_id:
+            "133030192262-sc78lj0ce578mpo3n83shp7vlp4pb4df.apps.googleusercontent.com",
+          callback: handleCredentialResponse,
+        });
+        google.accounts.id.renderButton(document.getElementById("buttonDiv"), {
+          theme: "outline",
+          size: "large",
+        });
+        google.accounts.id.prompt();
+      };
+    </script>
     <title>Login</title>
   </head>
   <body>
@@ -22,8 +67,11 @@
               <% if (locals.error) { %>
               <div class="alert alert-danger" role="alert"><%= error %></div>
               <% } %>
-              <form method="POST" action="/user/login">
-                <div class="mb-3">
+              <center>
+                <div id="buttonDiv" class="text-center mt-3"></div>
+              </center>
+              <form id="login_form" method="POST" action="/user/login">
+                <div class="my-3">
                   <label for="email" class="form-label">Email</label>
                   <input
                     required

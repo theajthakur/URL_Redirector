@@ -7,7 +7,7 @@ const { checkForAuthentication, restrictTo } = require("./middlewares/auth");
 
 const URL = require("./models/url");
 const cookieParser = require("cookie-parser");
-const port = 8000;
+const port = 80;
 
 const urlRoute = require("./routes/url");
 const RedirectRoute = require("./routes/redirect");

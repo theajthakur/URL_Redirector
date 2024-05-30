@@ -42,9 +42,7 @@
       <% if (locals.id) { %>
       <p class="p-2 text-center bg-light">
         URL Generated:
-        <a href="http://localhost:8000/url/<%=id%>" target="_blank"
-          >http://localhost:8000/url/<%=id%></a
-        >
+        <a href="/url/<%=id%>" target="_blank">/url/<%=id%></a>
       </p>
       <% } %>
       <div class="my-2">
@@ -88,17 +86,10 @@
           <tr>
             <td><%= index+1 %></td>
             <td>
-              <a
-                target="_blank"
-                href="http://localhost:8000/url/analytic/<%= url.shortId %>"
+              <a target="_blank" href="/url/analytic/<%= url.shortId %>"
                 ><%= url.shortId %></a
               >
-              <a
-                target="_blank"
-                href="http://localhost:8000/r/<%= url.shortId %>"
-              >
-                [LINK]</a
-              >
+              <a target="_blank" href="/r/<%= url.shortId %>"> [LINK]</a>
             </td>
             <td><%= url.redirectURL %></td>
             <td><%= url.visitHistory.length %></td>
